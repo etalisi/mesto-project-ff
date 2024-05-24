@@ -1,60 +1,29 @@
-//Работа модальных окон
+//Функция открытия попапа
+let openedPopup;
 
-const popupEdit = document.querySelector('.popup_type_edit');
-const popupNewCard = document.querySelector('.popup_type_new-card');
-export const page = document.querySelector('.page');
-
-
-
-export function openPopup (evt) {
-
-  if (evt.target.classList.contains('profile__edit-button')) {
-    popupEdit.classList.add('popup_is-opened');
-    nameInput.value = profileTitle.textContent;
-    jobInput.value = profileDescription.textContent;
-  } else if (evt.target.classList.contains('profile__add-button')) {
-    popupNewCard.classList.add('popup_is-opened');
-  }
-  page.addEventListener('click', closePopup);
-  document.addEventListener('keydown', closePopup);
-
+export function openPopup (popup) {
+  openedPopup = popup;
+  openedPopup.classList.add('popup_is-opened'); 
+  document.addEventListener('keydown', closeOnKeydown);
 }
+  
+//Функции закрытия попапа
 
-
-
-
-export function closePopup(evt) {
-  if (evt.target.classList.contains('popup__close') || evt.key === 'Escape' || (evt.target.classList.contains('popup'))) {
-    document.querySelector('.popup_is-opened').classList.remove('popup_is-opened');
-  } 
-
+export function closePopup() {
+  openedPopup.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', closeOnKeydown);
 };
 
-document.removeEventListener('keydown', closePopup);
-
-//Редактирование информации о себе
-
-
-const nameInput = document.querySelector('.popup__input_type_name');
-const jobInput = document.querySelector('.popup__input_type_description');
-const profileTitle = document.querySelector ('.profile__title');
-const profileDescription = document.querySelector ('.profile__description');
-
-
-
-export function handleFormSubmit(evt) {
-
-  profileTitle.textContent = nameInput.value;
-  profileDescription.textContent = jobInput.value;
-  document.querySelector('.popup_is-opened').classList.remove('popup_is-opened');
-  evt.preventDefault();
+function closeOnKeydown (evt) {
+  if (evt.key === 'Escape') {
+    closePopup();
+  } 
 }
 
-
-
-//Анимация попапов
-
-const popup = document.querySelectorAll('.popup');
-popup.forEach((item) => {
-  item.classList.add('popup_is-animated');
-});
+export function closeOnClick (evt) {
+  if(evt.target === evt.currentTarget) {
+    closePopup();
+} else if(evt.target.classList.contains('popup__close')) {
+    closePopup();
+  }
+}
