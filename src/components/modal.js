@@ -27,3 +27,12 @@ export function closeOnClick (evt) {
     closePopup();
   }
 }
+
+export function renderLoading (isLoading) {
+  const button = openedPopup.querySelector('.popup__button');
+  if (isLoading) {
+    button.textContent = 'Сохранение...';
+  } else {
+    button.textContent = 'Сохранить';
+  }
+}
